@@ -1,8 +1,8 @@
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
 	typeof define === 'function' && define.amd ? define(['exports'], factory) :
-	(factory((global.window = global.window || {})));
-}(this, (function (exports) { 'use strict';
+	(global = global || self, factory(global.window = global.window || {}));
+}(this, function (exports) { 'use strict';
 
 	/* global window */
 
@@ -52,18 +52,9 @@
 			const binaryRequestData = json.binaryRequestData;
 
 			const authorizationRequestData = Object.assign({}, bundleRequestData, binaryRequestData);
-	       	const options = {
-					binaryRequestData : authorizationRequestData
-			};
-			const ajax = new this._sumerian.Ajax('', options);
+			this._world.loader._ajax.options.binaryRequestData = Object.assign(this._world.loader._ajax.options.binaryRequestData, authorizationRequestData);
 
-			// The DynamicLoader currently does not allow another one to be constructed
-			// if the world already has a loader
-			// So we are going to fake it out, restoring the original world loader to the world after contruction
-			const oldLoader = this._world.loader;
-			this._world.loader = undefined;
-			const dynamicLoader = new this._sumerian.DynamicLoader({world : this._world, ajax});
-			this._world.loader = oldLoader;   
+			const dynamicLoader = this._world.loader;
 
 			const bundleURL = json.bundleData[sceneId].url;
 			const headers = json.bundleData[sceneId].headers;
@@ -88,7 +79,7 @@
 			const uri = `${url.pathname}${url.search}`;
 
 			//Turn off param validation because of the hackery coming up
-			const service = new AWS.STS({endpoint : url.origin, credentials : this._credentials, paramValidation: false});
+			const service = new AWS.Lightsail({endpoint : url.origin, credentials : this._credentials, paramValidation: false});
 		 
 			service.api.signingName = "sumerian";
 		 
@@ -109,4 +100,4 @@
 
 	Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));

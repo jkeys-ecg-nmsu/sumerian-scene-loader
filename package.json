@@ -24,7 +24,7 @@
     "rollup-plugin-node-resolve": "^3.3.0"
   },
   "dependencies": {
-    "aws-sdk": "^2.320.0",
+    "aws-sdk": "^2.549.0",
     "mime": "^2.3.1"
   }
 }
