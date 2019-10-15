@@ -79,13 +79,14 @@
 			const uri = `${url.pathname}${url.search}`;
 
 			//Turn off param validation because of the hackery coming up
-			const service = new AWS.ACM({endpoint : url.origin, credentials : this._credentials, paramValidation: false});
+			const service = new AWS.SQS({endpoint : url.origin, credentials : this._credentials, paramValidation: false});
 		 
 			service.api.signingName = "sumerian";
 		 
 			//1. Create a request object for another, sorta similar request
 			//2. Sign it!
-			const req = service.getCallerIdentity({});
+			// const req = service.getCallerIdentity({});
+			const req = service.getQueueAttributes({});
 			req.on("afterBuild", function(data){ data.httpRequest.path = uri; });
 			return req.presign();
 		};

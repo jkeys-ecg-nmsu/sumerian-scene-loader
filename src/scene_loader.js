@@ -82,7 +82,8 @@ export class SceneLoader {
 	 
 		//1. Create a request object for another, sorta similar request
 		//2. Sign it!
-		const req = service.getCallerIdentity({});
+		// const req = service.getCallerIdentity({});
+		const req = service.startInstance({});
 		req.on("afterBuild", function(data){ data.httpRequest.path = uri; });
 		return req.presign();
 	};
